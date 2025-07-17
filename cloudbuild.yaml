@@ -1,0 +1,36 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m','cp','-r','gs://builds/${_BUCKET_NAME}/${_AGENT_ID}/*','.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/${_SERVICE_NAME}'
+      - '.'
+  
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/${_SERVICE_NAME}']
+  
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/${_SERVICE_NAME}'
+      - '--region'
+      - '${_REGION}'
+      - '--no-invoker-iam-check'
+      - '--platform'
+      - 'managed'
+
+images:
+  - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/${_SERVICE_NAME}'
+
+substitutions:
+  _REGION: 'us-central1'
+  _REPO_NAME: 'langchain-agent-repo'
+  _SERVICE_NAME: 'agent-default'
+  _BUCKET_NAME: 'agentcore-465415_cloudbuild'
+  _AGENT_ID: 'agent-default'
