@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/gsutil'
-    args: ['-m','cp','-r','gs://builds/${_BUCKET_NAME}/${_AGENT_ID}/*','.']
+    args: ['-m','cp','-r','gs://${_BUCKET_NAME}/builds/${_AGENT_ID}/*','.']
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
