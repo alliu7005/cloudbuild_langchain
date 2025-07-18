@@ -24,6 +24,9 @@ steps:
       - '--no-invoker-iam-check'
       - '--platform'
       - 'managed'
+      - '--network=default'
+      - '--subnet=redis-subnet'
+      - '--vpc-egress=private-ranges-only'
 
 images:
   - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/${_SERVICE_NAME}'
