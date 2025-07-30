@@ -40,3 +40,4 @@ substitutions:
   _SERVICE_NAME: 'agent-default'
   _BUCKET_NAME: 'agentcore-465415_cloudbuild'
   _AGENT_ID: 'agent-default'
+  _USER_EMAIL: ''
