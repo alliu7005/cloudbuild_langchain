@@ -28,6 +28,8 @@ steps:
       - '--subnet=redis-subnet'
       - '--vpc-egress=private-ranges-only'
 
+logsBucket: 'gs://build-logs'
+
 images:
   - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/${_SERVICE_NAME}'
 
